@@ -9,6 +9,12 @@ ET-BERT尝试解决如下问题：
 针对上述问题，ET-BERT围绕BURST（source和destination之间的双向session），设计了byte和BURST层面的预训练任务，分别在packet层级和流层级的数据上进行微调。
 
 ### 3. 工作流程
-
+![avatar](images/etbert.png)
+##### 1. Datagram2Token
+从.pcap文件生成预训练和微调所用的文本，并通过tokenizer生成token。生成预训练和微调数据的方式略有不同。
+生成预训练corpus的流程如下：
+![avatar](images/pretrain_process.png)
+作者提出了两种微调策略：在单个packet级别的数据上微调和在flow级别的数据上微调。为实现流量数据的切分，使用了SplitCap工具。
+![avatar](images/finetune_process.png)
 
 ### 附录：基于UER-py使用和管理类BERT模型
