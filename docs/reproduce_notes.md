@@ -9,13 +9,13 @@ ET-BERT尝试解决如下问题：
 针对上述问题，ET-BERT围绕BURST（source和destination之间的双向session），设计了byte和BURST层面的预训练任务，分别在packet层级和流层级的数据上进行微调。
 
 ### 3. 工作流程
-![avatar](images/etbert.png)
+![avatar](main/images/etbert.png)
 ##### 1. Datagram2Token
 从.pcap文件生成预训练和微调所用的文本，并通过tokenizer生成token。生成预训练和微调数据的方式略有不同。
 生成预训练corpus的流程如下：
-![avatar](images/pretrain_process.png)
+![avatar](main/images/pretrain_process.png)
 作者提出了两种微调策略：在单个packet级别的数据上微调和在flow级别的数据上微调。为实现流量数据的切分，使用了SplitCap工具。
-![avatar](images/finetune_process.png)
+![avatar](main/images/finetune_process.png)
 ##### 2. 预训练
 BURST可以视作在source IP（sIP）和destination IP（dIP）之间通过某端口的一段时间内的双向会话，包含从sIP到dIP以及反向的数据流。不同的会话由不同的应用、代理等发起，因而虽然加密数据的payload自身缺乏语义，但将捕获的包整理为BURST，对数据集进行分割，就能得到隐含类别语义的数据段。
 作者将一个BURST视为句子，其中的字节数据视为word，利用BERT进行预训练，设计了两个预训练任务：Masked BURST（相当于next word prediction）和Same-origin BURST prediction（相当于next sentence prediction）
@@ -25,4 +25,4 @@ BURST可以视作在source IP（sIP）和destination IP（dIP）之间通过某�
 ### 附录：基于UER-py使用和管理类BERT模型
 链接：https://github.com/dbiir/UER-py
 ET-BERT使用UER-py对数据生成和模型训练、微调进行管理，基本继承了UER-py的项目结构。UER-py提供了包括但不限于BERT系列模型（BERT、T5等）的一系列资源，并提供了数据集生成、模型预训练、微调等过程的一系列方法，用户通过输入命令传入参数，以实现所需的功能。UER的结构与功能如下图所示。
-![avatar](images/UER_PY.png)
+![avatar](main/images/UER_PY.png)
