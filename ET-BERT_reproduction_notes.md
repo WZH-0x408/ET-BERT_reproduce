@@ -16,5 +16,10 @@ ET-BERT尝试解决如下问题：
 ![avatar](images/pretrain_process.png)
 作者提出了两种微调策略：在单个packet级别的数据上微调和在flow级别的数据上微调。为实现流量数据的切分，使用了SplitCap工具。
 ![avatar](images/finetune_process.png)
+##### 2. 预训练
+BURST可以视作在source IP（sIP）和destination IP（dIP）之间通过某端口的一段时间内的双向会话，包含从sIP到dIP以及反向的数据流。不同的会话由不同的应用、代理等发起，因而虽然加密数据的payload自身缺乏语义，但将捕获的包整理为BURST，对数据集进行分割，就能得到隐含类别语义的数据段。
+作者将一个BURST视为句子，其中的字节数据视为word，利用BERT进行预训练，设计了两个预训练任务：Masked BURST（相当于next word prediction）和Same-origin BURST prediction（相当于next sentence prediction）
+##### 3. 微调
+作者提出了两种fine-tune策略，分别命名为ET-BERT(flow)和ET-BERT(packet)。两种策略的不同在于，前者提取一个flow的前5个包，在flow上微调，以基于流分类的方法完成任务并进行评价，用以和FS-Net等流方法进行比较。后者在单个packet数据上进行微调，基于packet分类完成下游任务并进行评价，可以和Deeppacket等packet层级的ML方法进行比较。
 
 ### 附录：基于UER-py使用和管理类BERT模型
