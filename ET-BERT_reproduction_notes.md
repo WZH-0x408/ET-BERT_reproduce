@@ -23,3 +23,6 @@ BURST可以视作在source IP（sIP）和destination IP（dIP）之间通过某�
 作者提出了两种fine-tune策略，分别命名为ET-BERT(flow)和ET-BERT(packet)。两种策略的不同在于，前者提取一个flow的前5个包，在flow上微调，以基于流分类的方法完成任务并进行评价，用以和FS-Net等流方法进行比较。后者在单个packet数据上进行微调，基于packet分类完成下游任务并进行评价，可以和Deeppacket等packet层级的ML方法进行比较。
 
 ### 附录：基于UER-py使用和管理类BERT模型
+链接：https://github.com/dbiir/UER-py
+ET-BERT使用UER-py对数据生成和模型训练、微调进行管理，基本继承了UER-py的项目结构。UER-py提供了包括但不限于BERT系列模型（BERT、T5等）的一系列资源，并提供了数据集生成、模型预训练、微调等过程的一系列方法，用户通过输入命令传入参数，以实现所需的功能。UER的结构与功能如下图所示。
+![avatar](images/UER_PY.png)
